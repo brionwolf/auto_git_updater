@@ -3,6 +3,7 @@
 # 0) Pull a branch, update local files accordingly, and push changes to same branch on remote
 # 0.a) Global Arguments
 which_branch=$1
+command_or_string=$2
 
 # -------------------------------
 # 1) git check out - check out the desired branch (usueally the gh-pages branch)
@@ -10,9 +11,11 @@ which_branch=$1
 current_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 # 1.b) Switch to branch passed in as an argument.
-if [ $# -eq 0  ]
+
+if [[ $# -eq 0 ]]
   then
-    echo -e "No branch provided, using current branch '$current_branch'."
+    echo "No branch provided, using current branch '$current_branch'."
+    exit 2
   else
     env -i git checkout $which_branch
 fi
@@ -26,9 +29,7 @@ env -i git merge --ff-only @{u}
 
 # -------------------------------
 # 3. remove/add/update local files
-
 date >> README.md
-
 
 # -------------------------------
 # 4. add/commit local changes in new commit.
