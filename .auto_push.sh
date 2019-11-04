@@ -14,10 +14,26 @@ current_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 if [[ $# -eq 0 ]]
   then
-    echo "No branch provided, using current branch '$current_branch'."
+    echo "No branch provided, using current branch: $current_branch"
     exit 2
   else
-    env -i git checkout $which_branch
+    if [[ `git branch | grep $which_branch` ]]
+      then
+        echo "Branch named $which_branch already exists"
+        env -i git checkout $which_branch
+      else
+        echo "Branch named $which_branch does not exist, Do you want to create it? (Yn)"
+        read user_response
+        if [[ "$user_response" = "y" || "$user_response" = "Y" ]]
+          then
+            echo "creating branch with name: $which_branch"
+            env -i git branch $which_branch
+            env -i git checkout $which_branch
+          else
+            echo "Branch with name $which_branch does not exist and was not created."
+            exit 2
+        fi
+    fi
 fi
 
 # -------------------------------
