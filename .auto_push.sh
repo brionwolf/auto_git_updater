@@ -27,6 +27,9 @@ env -i git merge --ff-only @{u}
 # -------------------------------
 # 3. remove/add/update local files
 
+date >> README.md
+
+
 # -------------------------------
 # 4. add/commit local changes in new commit.
 
