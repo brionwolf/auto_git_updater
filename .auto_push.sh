@@ -11,7 +11,6 @@ command_or_string=$2
 current_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 # 1.b) Switch to branch passed in as an argument.
-
 if [[ $# -eq 0 ]]
   then
     echo "No branch provided, using current branch: $current_branch"
@@ -61,6 +60,15 @@ echo "contents of '$file_to_create_or_edit' have been replaced with '$new_conten
 
 # -------------------------------
 # 4. add/commit local changes in new commit.
+# 4.a) Check current state
+echo "Current git status"
+env -i git status
+
+# 4.b) Add modified file
+env -i git add $file_to_create_or_edit
+
+# 4.c) Commit changes to file
+env -i git commit -m "file updated with current date $(date)"
 
 # -------------------------------
 # 5. git push origin
