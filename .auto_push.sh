@@ -1,4 +1,4 @@
-#!/bin/bash
+# #!/bin/bash
 
 # 0) Pull a branch, update local files accordingly, and push changes to same branch on remote
 # 0.a) Global Arguments
@@ -68,9 +68,10 @@ env -i git status
 env -i git add $file_to_create_or_edit
 
 # 4.c) Commit changes to file
-git commit -m "file updated with current date $(date)"
+git commit -m "File updated with current date - $(date)"
 
 # -------------------------------
 # 5. git push origin
+git push origin $(git branch | grep \* | cut -d ' ' -f2)
 
 # -------------------------------
