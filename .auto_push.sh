@@ -47,14 +47,17 @@ env -i git merge --ff-only @{u}
 file_to_create_or_edit=current_date.md
 if test -f "$file_to_create_or_edit";
   then
-    echo "'$file_to_create_or_edit' exist, and is being removed"
+    echo "'$file_to_create_or_edit' exists."
     rm $file_to_create_or_edit
   else
     echo "'$file_to_create_or_edit' does not exist and will be created as part of this script"
 fi
 
-# 3.c) Create a file with the same name, and Update it with the current date from bash commands
-date >> $file_to_create_or_edit
+# 3.c) Create a file with the same name, and Update it with the current datetime from bash
+new_content="The current time is: $(date -u)";
+
+echo $new_content >> $file_to_create_or_edit
+echo "contents of '$file_to_create_or_edit' have been replaced with '$new_content'"
 
 # -------------------------------
 # 4. add/commit local changes in new commit.
