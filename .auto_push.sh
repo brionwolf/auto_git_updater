@@ -68,7 +68,7 @@ env -i git status
 env -i git add $file_to_create_or_edit
 
 # 4.c) Commit changes to file
-env -i git commit -m "file updated with current date $(date)"
+git commit -m "file updated with current date $(date)"
 
 # -------------------------------
 # 5. git push origin
