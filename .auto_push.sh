@@ -38,14 +38,25 @@ fi
 
 # -------------------------------
 # 2) git pull origin or 'git up' to update local with any possible remote changes.
+# 2.note) Why use `remote update`, and `git merge` over `git pull`: https://stackoverflow.com/questions/15316601/in-what-cases-could-git-pull-be-harmful/15316602#15316602
 env -i git remote update -p
 env -i git merge --ff-only @{u}
 
-# 2.a) Why use `remote update`, and `git merge` over `git pull`: https://stackoverflow.com/questions/15316601/in-what-cases-could-git-pull-be-harmful/15316602#15316602
-
 # -------------------------------
 # 3. remove/add/update local files
-date >> README.md
+# 3.a) Check if file exists
+# 3.b) delete it if it exists
+file_to_create_or_edit=current_date.md
+if test -f "$file_to_create_or_edit";
+  then
+    echo "'$file_to_create_or_edit' exist, and is being removed"
+    rm $file_to_create_or_edit
+  else
+    echo "'$file_to_create_or_edit' does not exist and will be created as part of this script"
+fi
+
+# 3.c) Create a file with the same name, and Update it with the current date from bash commands
+date >> $file_to_create_or_edit
 
 # -------------------------------
 # 4. add/commit local changes in new commit.
@@ -54,4 +65,3 @@ date >> README.md
 # 5. git push origin
 
 # -------------------------------
-
