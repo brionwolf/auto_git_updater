@@ -15,7 +15,6 @@ current_branch=$(git branch | grep \* | cut -d ' ' -f2)
 if [[ $# -eq 0 ]]
   then
     echo "No branch provided, using current branch: $current_branch"
-    exit 2
   else
     if [[ `git branch | grep $which_branch` ]]
       then
@@ -31,7 +30,6 @@ if [[ $# -eq 0 ]]
             env -i git checkout $which_branch
           else
             echo "Branch with name $which_branch does not exist and was not created."
-            exit 2
         fi
     fi
 fi
