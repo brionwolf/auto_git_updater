@@ -1,16 +1,25 @@
 # #!/bin/bash
+# Auto Push
 
-# 0) Pull a branch, update local files accordingly, and push changes to same branch on remote
-# 0.a) Global Arguments
+# This Script will do the following:
+# ----------------------------------
+# 1) Checkout the desired branch or create a new one
+# 2) Make sure the branch is up to date with "git pull"
+# 3) Run an executable that makes local changes
+# 4) Commit changes with a message including a datetime Stamp
+# 5) Push local changes to the remote instance of the curren branch
+
+# Options:
+# ----------------------------------
+# $which_branch - Define a specific git branch to use. If the branch specified does not exist, the script will ask if a new branch should be created.
+
+# Options:
+# ----------------------------------
 which_branch=$1
-command_or_string=$2
 
 # -------------------------------
-# 1) git check out - check out the desired branch (usueally the gh-pages branch)
-# 1.a) get the current branch
+# 1) Checkout the desired branch or create a new one
 current_branch=$(git branch | grep \* | cut -d ' ' -f2)
-
-# 1.b) Switch to branch passed in as an argument.
 if [[ $# -eq 0 ]]
   then
     echo "No branch provided, using current branch: $current_branch"
@@ -34,44 +43,23 @@ if [[ $# -eq 0 ]]
 fi
 
 # -------------------------------
-# 2) git pull origin or 'git up' to update local with any possible remote changes.
-# 2.note) Why use `remote update`, and `git merge` over `git pull`: https://stackoverflow.com/questions/15316601/in-what-cases-could-git-pull-be-harmful/15316602#15316602
+# 2) Make sure the branch is up to date with "git pull"
+  # Note: Why use `remote update`, and `git merge` over `git pull`: https://stackoverflow.com/questions/15316601/in-what-cases-could-git-pull-be-harmful/15316602#15316602
 env -i git remote update -p
 env -i git merge --ff-only @{u}
 
 # -------------------------------
-# 3. remove/add/update local files
-# 3.a) Check if file exists
-# 3.b) delete it if it exists
-file_to_create_or_edit=current_date.md
-if test -f "$file_to_create_or_edit";
-  then
-    echo "'$file_to_create_or_edit' exists."
-    rm $file_to_create_or_edit
-  else
-    echo "'$file_to_create_or_edit' does not exist and will be created as part of this script"
-fi
-
-# 3.c) Create a file with the same name, and Update it with the current datetime from bash
-new_content="The current time is: $(date -u)";
-
-echo $new_content >> $file_to_create_or_edit
-echo "contents of '$file_to_create_or_edit' have been replaced with '$new_content'"
+# 3) Run an executable that makes local changes
 
 # -------------------------------
-# 4. add/commit local changes in new commit.
-# 4.a) Check current state
+# 4) Commit changes with a message including a datetime Stamp
 echo "Current git status"
 env -i git status
-
-# 4.b) Add modified file
 env -i git add $file_to_create_or_edit
-
-# 4.c) Commit changes to file
 git commit -m "File updated with current date - $(date)"
 
 # -------------------------------
-# 5. git push origin
+# 5) Push local changes to the remote instance of the curren branch
 git push origin $(git branch | grep \* | cut -d ' ' -f2)
 
 # -------------------------------
