@@ -7,38 +7,53 @@
 # 2) Make sure the branch is up to date with "git pull"
 # 3) Run an executable that makes local changes
 # 4) Commit changes with a message including a datetime Stamp
-# 5) Push local changes to the remote instance of the curren branch
+# 5) Push local changes to the remote instance of the current branch
 
-# Options:
+# Flags:
 # ----------------------------------
-# $which_branch - Define a specific git branch to use. If the branch specified does not exist, the script will ask if a new branch should be created.
+# -b    (optional) Define a branch to pull and update. If unset, script will use the current Branch.
+# -e    (required) Provide an executable that makes updates to the current project. If no executable is provided, the script will fail.
 
-# Options:
-# ----------------------------------
-which_branch=$1
+while getopts ":b:e:" opt; do
+  case ${opt} in
+    b )
+      BRANCH_NAME=$OPTARG
+      ;;
+    e )
+      EXECUTABLE=$OPTARG
+      ;;
+  esac
+done
+shift $((OPTIND -1))
+
+# Fail if an executable isn't provided.
+if [[ -z "$EXECUTABLE" ]]; then
+  echo "FAILED. Exit code 1. Please Provide an execurable with the [-e] flag." 1>&2
+  exit 1
+fi
 
 # ----------------------------------
 # 1) Checkout the desired branch or create a new one
-current_branch=$(git branch | grep \* | cut -d ' ' -f2)
+CURRENT_BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
 
-if [[ $# -eq 0 ]]
+if [[ -z "$BRANCH_NAME" ]];
   then
-    echo "No branch provided, using current branch: $current_branch"
+    echo "No branch provided, using current branch: $CURRENT_BRANCH"
   else
-    if [[ `git branch | grep $which_branch` ]]
+    if [[ `git branch | grep $BRANCH_NAME` ]]
       then
-        echo "Branch named $which_branch already exists"
-        env -i git checkout $which_branch
+        echo "Branch named $BRANCH_NAME already exists"
+        env -i git checkout $BRANCH_NAME
       else
-        echo "Branch named $which_branch does not exist, Do you want to create it? (Yn)"
+        echo "Branch named $BRANCH_NAME does not exist, Do you want to create it? (Yn)"
         read user_response
         if [[ "$user_response" = "y" || "$user_response" = "Y" ]]
           then
-            echo "creating branch with name: $which_branch"
-            env -i git branch $which_branch
-            env -i git checkout $which_branch
+            echo "creating branch with name: $BRANCH_NAME"
+            env -i git branch $BRANCH_NAME
+            env -i git checkout $BRANCH_NAME
           else
-            echo "Branch with name $which_branch does not exist and was not created."
+            echo "Branch with name $BRANCH_NAME does not exist and was not created."
         fi
     fi
 fi
