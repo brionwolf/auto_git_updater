@@ -14,7 +14,18 @@
 # -b    (optional) Define a branch to pull and update. If unset, script will use the current Branch.
 # -e    (required) Provide an executable that makes updates to the current project. If no executable is provided, the script will fail.
 
-while getopts ":b:e:" opt; do
+function USERAGE() {
+  echo "USERAGE: cmd [-b branch_name] [-e .executable_to_run.sh]
+
+DESCRIPTION: Purpose of this script is to automate regular updates to static Jekyll sites. The script 1) fetches the latest changes for the current branch, 2) asks for a script that makes a change, and 3) pushes those changes to the current branch.
+
+Available Flags:
+-b    Define a branch to pull and update. If unset, script will use the current Branch.
+-e    Provide an executable that makes updates to the current project. If no executable is provided, the script will fail.
+-h    Display help, and usage information." 1>&2
+}
+
+while getopts ":b:e:h" opt; do
   case ${opt} in
     b )
       BRANCH_NAME=$OPTARG
@@ -22,13 +33,19 @@ while getopts ":b:e:" opt; do
     e )
       EXECUTABLE=$OPTARG
       ;;
+    h )
+      USERAGE
+      exit 1
+      ;;
   esac
 done
 shift $((OPTIND -1))
 
 # Fail if an executable isn't provided.
 if [[ -z "$EXECUTABLE" ]]; then
-  echo "FAILED. Exit code 1. Please Provide an execurable with the [-e] flag." 1>&2
+  echo "ILLEGAL. Provide an execurable with the [-e] flag.
+" 1>&2
+  USERAGE
   exit 1
 fi
 
