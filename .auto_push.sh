@@ -24,7 +24,7 @@ c_cyn=$'\e[1;36m'
 c_wht=$'\e[0m'
 
 function USERAGE() {
-  echo "USERAGE: cmd [-b branch_name] [-e .executable_to_run.sh]
+  echo "USERAGE: cmd [-b branch_name] [-e /path/to/executable.sh]
 
 DESCRIPTION: Purpose of this script is to automate regular updates to static Jekyll sites. The script 1) fetches the latest changes for the current branch, 2) asks for a script that makes a change, and 3) pushes those changes to the current branch.
 
@@ -95,6 +95,8 @@ env -i git merge --ff-only @{u}
 
 # ----------------------------------
 # 3) Run an executable that makes local changes
+
+source $EXECUTABLE
 
 # ----------------------------------
 # 4) Commit changes with a message including a datetime Stamp
