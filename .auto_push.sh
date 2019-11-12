@@ -107,7 +107,7 @@ if git diff-index --quiet HEAD --;
   then
     echo "No changes were made"
   else
-    env -i git add $file_to_create_or_edit
+    env -i git add .
     git commit -m "File updated with current date - $(date)"
 fi
 
