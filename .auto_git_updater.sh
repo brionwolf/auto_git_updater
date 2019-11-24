@@ -61,6 +61,10 @@ fi
 
 # ----------------------------------
 # 1) Checkout the desired branch or create a new one
+echo "
+Checking the branch
+-------------------"
+
 CURRENT_BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
 
 if [[ -z "$BRANCH_NAME" ]];
@@ -95,12 +99,19 @@ env -i git merge --ff-only @{u}
 
 # ----------------------------------
 # 3) Run an executable that makes local changes
+echo "
+Running provided executable
+---------------------------" $c_blu
 
 source $EXECUTABLE
+echo $c_wht
 
 # ----------------------------------
 # 4) Commit changes with a message including a datetime Stamp
-echo "Checking current state of git"
+echo "
+Checking current state of git
+-----------------------------"
+
 env -i git status
 
 if git diff-index --quiet HEAD --;
@@ -108,11 +119,15 @@ if git diff-index --quiet HEAD --;
     echo "No changes were made"
   else
     env -i git add .
-    git commit -m "File updated with current date - $(date)"
+    git commit -m "Project updated with auto_git_updater — $(date)"
 fi
 
 # ----------------------------------
 # 5) Push local changes to the remote instance of the curren branch
+echo "
+Attempting to push changes
+--------------------------"
+
 git push origin $(git branch | grep \* | cut -d ' ' -f2)
 
 # ----------------------------------
