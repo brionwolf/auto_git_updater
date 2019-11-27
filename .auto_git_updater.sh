@@ -53,10 +53,18 @@ shift $((OPTIND -1))
 # Fail if an executable isn't provided.
 if [[ -z "$EXECUTABLE" ]]; then
   echo "$c_red
-ILLEGAL. Provide an execurable with the [-e] flag. $c_wht
+ILLEGAL: Provide an execurable with the [-e] flag. $c_wht
 " 1>&2
   USERAGE
   exit 1
+elif [[ "$EXECUTABLE" == ".auto_git_updater.sh" ]]; then
+  echo "$c_red
+ILLEGAL: Providing this executable TO this executable creates an endless loop.
+Use a different executable. $c_wht
+" 1>&2
+  USAGE
+  exit 1
+
 fi
 
 # ----------------------------------
