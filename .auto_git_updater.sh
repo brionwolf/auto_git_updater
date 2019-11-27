@@ -23,8 +23,8 @@ c_mag=$'\e[1;35m'
 c_cyn=$'\e[1;36m'
 c_wht=$'\e[0m'
 
-function USERAGE() {
-  echo "USERAGE: cmd [-b branch_name] [-e /path/to/executable.sh]
+function USAGE() {
+  echo "USAGE: cmd [-b branch_name] [-e /path/to/executable.sh]
 
 DESCRIPTION: Purpose of this script is to automate regular updates to static Jekyll sites. The script 1) fetches the latest changes for the current branch, 2) asks for a script that makes a change, and 3) pushes those changes to the current branch.
 
@@ -43,7 +43,7 @@ while getopts ":b:e:h" opt; do
       EXECUTABLE=$OPTARG
       ;;
     h )
-      USERAGE
+      USAGE
       exit 1
       ;;
   esac
@@ -55,7 +55,7 @@ if [[ -z "$EXECUTABLE" ]]; then
   echo "$c_red
 ILLEGAL: Provide an execurable with the [-e] flag. $c_wht
 " 1>&2
-  USERAGE
+  USAGE
   exit 1
 elif [[ "$EXECUTABLE" == ".auto_git_updater.sh" ]]; then
   echo "$c_red
