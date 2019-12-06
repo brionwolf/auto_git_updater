@@ -122,13 +122,24 @@ Checking current state of git
 
 env -i git status
 
+echo "
+Commit any changes
+-----------------------------"
+
 if git diff-index --quiet HEAD --;
   then
     echo "No changes were made"
   else
-    env -i git add .
+    env -i git add -A .
     git commit -m "Project updated with auto_git_updater — $(date)"
 fi
+
+
+echo "
+Checking current state of git
+-----------------------------"
+
+env -i git status
 
 # ----------------------------------
 # 5) Push local changes to the remote instance of the curren branch
