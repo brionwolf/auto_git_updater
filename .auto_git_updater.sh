@@ -59,8 +59,8 @@ ILLEGAL: Provide an execurable with the [-e] flag. $c_wht
   exit 1
 elif [[ "$EXECUTABLE" == ".auto_git_updater.sh" ]]; then
   echo "$c_red
-ILLEGAL: Providing this executable TO this executable creates an endless loop.
-Use a different executable. $c_wht
+ILLEGAL: Providing this executable to itself creates an endless loop.
+Use a different executable.$c_wht
 " 1>&2
   USAGE
   exit 1
@@ -109,10 +109,10 @@ env -i git merge --ff-only @{u}
 # 3) Run an executable that makes local changes
 echo "
 Running provided executable
----------------------------" $c_blu
+---------------------------$c_blu"
 
 source $EXECUTABLE
-echo $c_wht
+echo "$c_wht"
 
 # ----------------------------------
 # 4) Commit changes with a message including a datetime Stamp
