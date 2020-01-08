@@ -67,6 +67,10 @@ Use a different executable.$c_wht
 
 fi
 
+echo "-------------------
+DATETIME: $(date)
+-------------------"
+
 # ----------------------------------
 # 1) Checkout the desired branch or create a new one
 echo "
