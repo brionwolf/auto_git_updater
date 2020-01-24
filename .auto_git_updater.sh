@@ -60,16 +60,24 @@ ILLEGAL: Provide an execurable with the [-e] flag. $c_wht
 elif [[ "$EXECUTABLE" == ".auto_git_updater.sh" ]]; then
   echo "$c_red
 ILLEGAL: Providing this executable to itself creates an endless loop.
-Use a different executable.$c_wht
+Use a different one.$c_wht
 " 1>&2
   USAGE
   exit 1
-
 fi
 
-echo "-------------------
+if [[ ! -f "$EXECUTABLE" ]] || [[ ! -x "$EXECUTABLE" ]]; then
+  echo "$c_red
+ERROR: Could not find an executable matching the provided path and name.
+Check the spelling and directory path you provided. $c_wht
+" 1>&2
+  USAGE
+  exit 1
+fi
+
+echo "--------------------------------------
 DATETIME: $(date)
--------------------"
+--------------------------------------"
 
 # ----------------------------------
 # 1) Checkout the desired branch or create a new one
@@ -134,7 +142,7 @@ if git diff-index --quiet HEAD --;
   then
     echo "No changes were made"
   else
-    env -i git add -A .
+    env -i git add --all .
     git commit -m "Project updated with auto_git_updater — $(date)"
 fi
 
@@ -154,3 +162,8 @@ Attempting to push changes
 git push origin $(git branch | grep \* | cut -d ' ' -f2)
 
 # ----------------------------------
+
+echo "
+Done
+--------------------------
+"
