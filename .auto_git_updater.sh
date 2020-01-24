@@ -143,7 +143,7 @@ if git diff-index --quiet HEAD --;
     echo "No changes were made"
   else
     env -i git add --all .
-    git commit -m "Project updated with auto_git_updater — $(date)"
+    git commit -am "Project updated with auto_git_updater — $(date)"
 fi
 
 
