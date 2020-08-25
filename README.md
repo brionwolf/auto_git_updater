@@ -1,5 +1,8 @@
 # auto_git_updater
 
+## Why?
+A few static sites managed by [OSC](https://osc.umd.edu) include events feeds that need to be updated on a regular basis. At the time this script was created, [github pages had no way to rebuild and update a site](https://stackoverflow.com/a/24099328) without commiting and pushing a change, or with parameters like replacing a cached file first. This script was a solution.
+
 ## What it does
 1. Fetches the latest changes for a specified branch.
 2. Asks for a script that makes changes to the local project.
